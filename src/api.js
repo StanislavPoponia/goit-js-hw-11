@@ -60,7 +60,8 @@ export const apiOptions = {
       
         if  (data.hits.length > 0) {
            Notify.success(`Hooray! We found ${data.totalHits} images.`);
-         } else {  (data.totalHits === 0) ;
+         } 
+         else {  (data.totalHits === 0) ;
          refs.loadMore.classList.add('none');
           Notify.failure(
            'Sorry, there are no images matching your search query. Please try again.'
