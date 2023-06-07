@@ -18,7 +18,7 @@ export const apiOptions = {
   function pushImages(data) {
     const card = data.hits
       .map(el => {
-        return `<div class="photo-card button-85">
+        return `<div class="photo-card button-rgb">
           <a href="${el.largeImageURL}"><img width="350" height="200" src="${el.webformatURL}" alt="${el.tags}" loading="lazy" /></a>
           <div class="info">
             <p class="info-item">
