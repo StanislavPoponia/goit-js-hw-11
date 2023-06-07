@@ -58,20 +58,16 @@ export const apiOptions = {
           captionDelay: 250,
         });
       
-        if (data.totalHits === 0) {
-          refs.loadMore.classList.add('none');
-           Notify.failure(
-            'Sorry, there are no images matching your search query. Please try again.'
-           );
-            return;
+        if  (data.hits.length > 0) {
+           Notify.success(`Hooray! We found ${data.totalHits} images.`);
+         } else {  (data.totalHits === 0) ;
+         refs.loadMore.classList.add('none');
+          Notify.failure(
+           'Sorry, there are no images matching your search query. Please try again.'
+          );
+           return;
         }
         
-        if (data.hits.length > 0) {
-          refs.loadMore.classList.add('none');
-          Notify.success(`Hooray! We found ${data.totalHits} images.`);
-            return;
-        }
-
         if (data.hits.length < 40) {
           refs.loadMore.classList.add('none');
           Notify.info(
