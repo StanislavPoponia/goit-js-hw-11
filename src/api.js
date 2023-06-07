@@ -9,7 +9,7 @@ export const apiOptions = {
   };
 
   export const refs = {
-    gallary: document.querySelector('.gallery'),
+    gallery: document.querySelector('.gallery'),
     inputSearch: document.querySelector('input[name="searchQuery"]'),
     form: document.querySelector('#search-form'),
     loadMore: document.querySelector('.load-more'),
@@ -17,32 +17,31 @@ export const apiOptions = {
 
   function pushImages(data) {
     const card = data.hits
-      .map(el => {
+      .map(e => {
         return `<div class="photo-card button-rgb">
-          <a href="${el.largeImageURL}"><img width="350" height="200" src="${el.webformatURL}" alt="${el.tags}" loading="lazy" /></a>
+          <a href="${e.largeImageURL}"><img width="350" height="200" src="${e.webformatURL}" alt="${e.tags}" loading="lazy" /></a>
           <div class="info">
             <p class="info-item">
               <b>Likes</b>
-              ${el.likes}
+              ${e.likes}
             </p>
             <p class="info-item">
               <b>Views</b>
-              ${el.views}
+              ${e.views}
             </p>
             <p class="info-item">
               <b>Comments</b>
-              ${el.comments}
+              ${e.comments}
             </p>
             <p class="info-item">
               <b>Downloads</b>
-              ${el.downloads}
+              ${e.downloads}
             </p>
           </div>
         </div>`;
       })
       .join('');
-  
-    return card;
+      return card;
   }
   
   export default async function fetchApiImages(API_KEY, page) {
@@ -51,36 +50,33 @@ export const apiOptions = {
         `https://pixabay.com/api/?key=${API_KEY}&q=${refs.inputSearch.value}&per_page=40&page=${page}&image_type=photo&orientation=horizontal&safesearch=true`
       )
       .then(({ data }) => {
-        refs.gallary.insertAdjacentHTML('beforeend', pushImages(data));
+        refs.gallery.insertAdjacentHTML('beforeend', pushImages(data));
   
         refs.loadMore.classList.remove('none');
         new SimpleLightbox('.gallery a', {
           captionsData: 'alt',
           captionDelay: 250,
         });
-
-        // if (data.totalHits.length > 0) {
-        //   Notify.success(`Hooray! We found ${totalImages} images.`);
-        //   return;}
-  
+      
         if (data.totalHits === 0) {
           refs.loadMore.classList.add('none');
-  
-          Notify.failure(
+           Notify.failure(
             'Sorry, there are no images matching your search query. Please try again.'
-          );
-  
-          return;
+           );
+            return;
+        }
+        
+        if (data.hits.length > 0) {
+          refs.loadMore.classList.add('none');
+          Notify.success(`Hooray! We found ${data.totalHits} images.`);
+            return;
         }
 
-      
-  
         if (data.hits.length < 40) {
           refs.loadMore.classList.add('none');
           Notify.info(
             "We're sorry, but you've reached the end of search results."
           );
-  
           return;
         }
       })

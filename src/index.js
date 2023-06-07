@@ -4,7 +4,7 @@ import { refs, apiOptions } from './api.js';
 refs.form.addEventListener('submit', async e => {
     e.preventDefault();
   
-    refs.gallary.innerHTML = '';
+    refs.gallery.innerHTML = '';
     refs.loadMore.classList.add('none');
     apiOptions.page = 1;
   
