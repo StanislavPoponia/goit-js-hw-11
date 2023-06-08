@@ -67,15 +67,16 @@ export const apiOptions = {
           return;
         }
        
-         if  (data.hits.length > 0) {
+         if  (apiOptions.page === 1 && data.hits.length > 0) {
            Notify.success(`Hooray! We found ${data.totalHits} images.`);
            refs.gallery.classList.remove('none');
-         } 
-         else {  (data.totalHits === 0) ;
+         } ;
+         
+         
+         if  (data.totalHits === 0) {
          refs.loadMore.classList.add('none');
           Notify.failure(
-           'Sorry, there are no images matching your search query. Please try again.'
-          );
+           'Sorry, there are no images matching your search query. Please try again.');
            return;
         }
         
