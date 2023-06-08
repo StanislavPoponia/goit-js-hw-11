@@ -60,7 +60,7 @@ export const apiOptions = {
           captionDelay: 250,
         });
 
-        if (apiOptions.query === '') {
+        if (apiOptions.query.trim() === '') {
           refs.gallery.classList.add('none');
           refs.loadMore.classList.add('none');
           Notify.warning('Please enter your query');
