@@ -7,12 +7,13 @@ refs.form.addEventListener('submit', async e => {
     refs.gallery.innerHTML = '';
     refs.loadMore.classList.add('none');
     apiOptions.page = 1;
+    apiOptions.query = event.target.elements.searchQuery.value;
   
-    await fetchApiImages(apiOptions.API_KEY, apiOptions.page);
+    await fetchApiImages(apiOptions.API_KEY);
   });
   
   refs.loadMore.addEventListener('click', async () => {
     apiOptions.page += 1;
   
-    await fetchApiImages(apiOptions.API_KEY, apiOptions.page);
+    await fetchApiImages(apiOptions.API_KEY);
   });

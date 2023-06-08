@@ -6,6 +6,7 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 export const apiOptions = {
     API_KEY: '37073976-b2cdc1fed064addf83f6fd0ff',
     page: 1,
+    query: null,
   };
 
   export const refs = {
@@ -44,22 +45,31 @@ export const apiOptions = {
       return card;
   }
   
-  export default async function fetchApiImages(API_KEY, page) {
+  export default async function fetchApiImages(API_KEY) {
     await axios
       .get(
-        `https://pixabay.com/api/?key=${API_KEY}&q=${refs.inputSearch.value}&per_page=40&page=${page}&image_type=photo&orientation=horizontal&safesearch=true`
+        `https://pixabay.com/api/?key=${API_KEY}&q=${apiOptions.query}&per_page=40&page=${apiOptions.page}&image_type=photo&orientation=horizontal&safesearch=true`
       )
       .then(({ data }) => {
+
         refs.gallery.insertAdjacentHTML('beforeend', pushImages(data));
-  
+      
         refs.loadMore.classList.remove('none');
         new SimpleLightbox('.gallery a', {
           captionsData: 'alt',
           captionDelay: 250,
         });
-      
-        if  (data.hits.length > 0) {
+
+        if (apiOptions.query === '') {
+          refs.gallery.classList.add('none');
+          refs.loadMore.classList.add('none');
+          Notify.warning('Please enter your query');
+          return;
+        }
+       
+         if  (data.hits.length > 0) {
            Notify.success(`Hooray! We found ${data.totalHits} images.`);
+           refs.gallery.classList.remove('none');
          } 
          else {  (data.totalHits === 0) ;
          refs.loadMore.classList.add('none');
